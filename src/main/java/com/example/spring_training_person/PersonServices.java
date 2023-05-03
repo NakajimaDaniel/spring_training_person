@@ -1,64 +1,51 @@
 package com.example.spring_training_person;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.logging.Logger;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PersonServices {
-  private final AtomicLong counter = new AtomicLong();
+  // private final AtomicLong counter = new AtomicLong();
 
-  private Logger logger = Logger.getLogger(PersonServices.class.getName());
+  // private Logger logger = Logger.getLogger(PersonServices.class.getName());
+
+  @Autowired
+  PersonRepository repository;
 
   public List<Person> findAll() {
-    List<Person> persons = new ArrayList<>();
-    for (int i = 0; i < 8; i++) {
-      Person person = mockPerson(i);
-      persons.add(person);
-    }
-    return persons;
+    return repository.findAll();
   }
 
-  public Person findById(String id) {
+  public Person findById(Long id) {
 
-    logger.info("finding one person");
-    Person person = new Person();
-
-    person.setId(counter.incrementAndGet());
-    person.setFirstName("sdsadas");
-    person.setLastName("sdsadas");
-    person.setAdress("sdsadas");
-    person.setGender("sdsadas");
-
-    return person;
+    return repository.findById(id)
+        .orElseThrow(null);
   }
 
   public Person create(Person person) {
-    return person;
+    return repository.save(person);
   }
 
   public Person update(Person person) {
-    return person;
+
+    Person entity = repository.findById(person.getId())
+        .orElseThrow(null);
+
+    entity.setFirstName(person.getFirstName());
+    entity.setLastName(person.getLastName());
+    entity.setAddress(person.getAddress());
+    entity.setGender(person.getGender());
+
+    return repository.save(person);
   }
 
-  public void delete(String id) {
+  public void delete(Long id) {
+    Person entity = repository.findById(id)
+        .orElseThrow(null);
 
-  }
-
-  private Person mockPerson(int i) {
-    logger.info("finding one person");
-    Person person = new Person();
-
-    person.setId(counter.incrementAndGet());
-    person.setFirstName("sdsadas" + i);
-    person.setLastName("sdsadas" + i);
-    person.setAdress("sdsadas" + i);
-    person.setGender("sdsadas" + i);
-
-    return person;
+    repository.delete(entity);
   }
 
 }

@@ -1,8 +1,13 @@
 package com.example.spring_training_person;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,29 +21,30 @@ public class PersonController {
   @Autowired
   private PersonServices service;
 
-  @GetMapping
-  public Iterable<Person> findAll() {
+  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+  public List<Person> findAll() {
     return service.findAll();
   }
 
-  @GetMapping("/{id}")
-  public Person findById(String id) {
+  @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public Person findById(Long id) {
     return service.findById(id);
   }
 
-  @PostMapping
+  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public Person create(@RequestBody Person person) {
     return service.create(person);
   }
 
-  @PutMapping
+  @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public Person update(@RequestBody Person person) {
     return service.create(person);
   }
 
   @DeleteMapping("/{id}")
-  public void delete(String id) {
+  public ResponseEntity<?> delete(@PathVariable Long id) {
     service.delete(id);
+    return ResponseEntity.noContent().build();
   }
 
 }
