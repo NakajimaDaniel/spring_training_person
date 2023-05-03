@@ -7,30 +7,33 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PersonServices {
-  // private final AtomicLong counter = new AtomicLong();
-
-  // private Logger logger = Logger.getLogger(PersonServices.class.getName());
 
   @Autowired
   PersonRepository repository;
 
-  public List<Person> findAll() {
-    return repository.findAll();
+  public List<PersonVO> findAll() {
+    return DozerMapper.parseListObject(repository.findAll(), PersonVO.class);
   }
 
-  public Person findById(Long id) {
+  public PersonVO findById(Long id) {
 
-    return repository.findById(id)
+    var entity = repository.findById(id)
         .orElseThrow(null);
+    return DozerMapper.parseObject(entity, PersonVO.class);
   }
 
-  public Person create(Person person) {
-    return repository.save(person);
+  public PersonVO create(PersonVO person) {
+
+    var entity = DozerMapper.parseObject(person, Person.class);
+
+    var vo = DozerMapper.parseObject(repository.save(entity), PersonVO.class);
+
+    return vo;
   }
 
-  public Person update(Person person) {
+  public PersonVO update(PersonVO person) {
 
-    Person entity = repository.findById(person.getId())
+    var entity = repository.findById(person.getId())
         .orElseThrow(null);
 
     entity.setFirstName(person.getFirstName());
@@ -38,11 +41,13 @@ public class PersonServices {
     entity.setAddress(person.getAddress());
     entity.setGender(person.getGender());
 
-    return repository.save(person);
+    var vo = DozerMapper.parseObject(repository.save(entity), PersonVO.class);
+
+    return vo;
   }
 
   public void delete(Long id) {
-    Person entity = repository.findById(id)
+    var entity = repository.findById(id)
         .orElseThrow(null);
 
     repository.delete(entity);
