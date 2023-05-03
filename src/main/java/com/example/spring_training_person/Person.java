@@ -1,4 +1,4 @@
-package com.example;
+package com.example.spring_training_person;
 
 import java.io.Serializable;
 
