@@ -11,6 +11,9 @@ public class PersonServices {
   @Autowired
   PersonRepository repository;
 
+  @Autowired
+  PersonMapper mapper;
+
   public List<PersonVO> findAll() {
     return DozerMapper.parseListObject(repository.findAll(), PersonVO.class);
   }
@@ -27,6 +30,15 @@ public class PersonServices {
     var entity = DozerMapper.parseObject(person, Person.class);
 
     var vo = DozerMapper.parseObject(repository.save(entity), PersonVO.class);
+
+    return vo;
+  }
+
+  public PersonVO2 createV2(PersonVO2 person) {
+
+    var entity = mapper.convertVoToEntity(person);
+
+    var vo = mapper.convertEntityToVo(repository.save(entity));
 
     return vo;
   }
