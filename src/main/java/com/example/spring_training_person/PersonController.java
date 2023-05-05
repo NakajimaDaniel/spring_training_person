@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,9 +42,9 @@ public class PersonController {
     return service.findAll();
   }
 
+  @CrossOrigin(origins = "http://localhost:8080")
   @GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
       MediaType.APPLICATION_YML })
-
   @Operation(summary = "Find a person", description = "Find a person", tags = { "People" }, responses = {
       @ApiResponse(description = "Success", responseCode = "200", content = @Content),
       @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
@@ -58,6 +59,7 @@ public class PersonController {
     return service.findById(id);
   }
 
+  @CrossOrigin(origins = "http://localhost:8080")
   @PostMapping(consumes = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
       MediaType.APPLICATION_YML }, produces = {
           MediaType.APPLICATION_JSON, com.example.spring_training_person.MediaType.APPLICATION_XML,
