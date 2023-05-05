@@ -11,3 +11,8 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MariaDB103Dialect
       show-sql: false
+
+springdoc:
+  pathsToMatch: /api/**/v1/**
+  swagger-ui:
+    use-root-path: true
