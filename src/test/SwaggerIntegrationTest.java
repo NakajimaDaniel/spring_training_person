@@ -1,4 +1,5 @@
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.given;
 
@@ -17,5 +18,9 @@ public class SwaggerIntegrationTest extends AbstractIntegrationTest {
         .statusCode(200)
         .extract()
         .body().asString();
+
+    Assertions.assertTrue(content.contains("Swagger UI"));
+
   }
+
 }
