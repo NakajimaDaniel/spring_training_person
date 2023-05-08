@@ -1,6 +1,5 @@
 package com.example.spring_training_person;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -8,7 +7,6 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import jakarta.annotation.Generated;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -22,7 +20,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users")
-public class User implements UserDetails, Serializable {
+public class User implements UserDetails {
   private static final long serialVersionUID = 1L;
 
   @Id
@@ -59,7 +57,7 @@ public class User implements UserDetails, Serializable {
   }
 
   public List<String> getRoles() {
-    List<String> roles = new ArrayList();
+    List<String> roles = new ArrayList<>();
     for (Permission permission : permissions) {
       roles.add(permission.getDescription());
     }

@@ -31,16 +31,15 @@ public class SecurityConfig {
 
     Pbkdf2PasswordEncoder pbkdf2Encoder = new Pbkdf2PasswordEncoder("", 8, 185000,
         SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA256);
-    encoders.put("pbkdf2", new Pbkdf2PasswordEncoder(null, 0, 0, null));
+    encoders.put("pbkdf2", pbkdf2Encoder);
     DelegatingPasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("pbkdf2", encoders);
-
-    passwordEncoder.setDefaultPasswordEncoderForMatches(new Pbkdf2PasswordEncoder(null, 0, 0, null));
-
+    passwordEncoder.setDefaultPasswordEncoderForMatches(pbkdf2Encoder);
     return passwordEncoder;
   }
 
   @Bean
-  AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+  AuthenticationManager authenticationManagerBean(
+      AuthenticationConfiguration authenticationConfiguration)
       throws Exception {
     return authenticationConfiguration.getAuthenticationManager();
   }
