@@ -24,3 +24,5 @@ security:
     token:
       secret-key: 123
       expire-length: 360000
+server:
+  port: 80
